@@ -25,6 +25,21 @@ import com.mazabin.tmdbclient.viewmodels.InTheatersViewModel
 import kotlinx.coroutines.launch
 
 @Composable
+fun InTheatersScreen(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+) {
+    val inTheatersViewModel = hiltViewModel<InTheatersViewModel>()
+    val uiState = inTheatersViewModel.uiStateFlow.collectAsState()
+
+    when (uiState.value) {
+        is InTheatersUiState.Loading -> LoadingScreen()
+        is InTheatersUiState.Success -> MoviesList((uiState.value as InTheatersUiState.Success).inTheaters, navController)
+        is InTheatersUiState.Error -> ErrorScreenInTheaters()
+    }
+}
+
+@Composable
 fun MoviesList(inTheaters: InTheaters, navController: NavController) {
     val viewModel = hiltViewModel<InTheatersViewModel>()
     val gridState = rememberLazyGridState()
@@ -56,21 +71,6 @@ fun MoviesList(inTheaters: InTheaters, navController: NavController) {
                viewModel.fetchNextPage()
            }
         }
-}
-
-@Composable
-fun InTheatersScreen(
-    modifier: Modifier = Modifier,
-    navController: NavController,
-) {
-    val inTheatersViewModel = hiltViewModel<InTheatersViewModel>()
-    val uiState = inTheatersViewModel.uiStateFlow.collectAsState()
-
-    when (uiState.value) {
-        is InTheatersUiState.Loading -> LoadingScreen()
-        is InTheatersUiState.Success -> MoviesList((uiState.value as InTheatersUiState.Success).inTheaters, navController)
-        is InTheatersUiState.Error -> ErrorScreenInTheaters()
-    }
 }
 
 @Preview

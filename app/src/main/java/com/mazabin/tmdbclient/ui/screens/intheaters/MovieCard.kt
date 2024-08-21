@@ -48,7 +48,7 @@ fun MovieCard(
 )  {
     Card(
         onClick = {
-            navController.navigate(Screen.MovieDetails.route)
+            navController.navigate(Screen.MovieDetails.createRoute(movie.id))
         }
     ) {
         Column {

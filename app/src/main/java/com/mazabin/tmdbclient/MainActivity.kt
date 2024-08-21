@@ -20,13 +20,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
-            Navigation(navController = navController)
-
-//            TMDBClientTheme {
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    InTheatersScreen(modifier = Modifier.padding(innerPadding), navController)
-//                }
-//            }
+            Navigation(
+                navController = navController,
+            )
         }
     }
 }

@@ -8,7 +8,6 @@ import retrofit2.http.Query
 
 interface InTheatersDataApi {
 
-    //https://api.themoviedb.org/3/movie/now_playing
     @Headers("Content-Type: application/json")
     @GET("movie/now_playing")
     suspend fun getMoviesInTheaters(

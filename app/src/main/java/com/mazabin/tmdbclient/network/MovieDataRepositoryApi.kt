@@ -1,6 +1,6 @@
 package com.mazabin.tmdbclient.network
 
-import com.mazabin.tmdbclient.model.data.MovieData
+import com.mazabin.tmdbclient.model.Movie
 
 interface MovieDataRepositoryApi {
 
@@ -8,5 +8,5 @@ interface MovieDataRepositoryApi {
         authorizationHeader: String,
         movieId: Int,
         language: String
-    ): MovieData
+    ): Movie
 }
