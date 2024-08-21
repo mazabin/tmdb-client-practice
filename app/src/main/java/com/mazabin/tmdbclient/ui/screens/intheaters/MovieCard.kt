@@ -1,4 +1,4 @@
-package com.mazabin.tmdbclient.ui.screens
+package com.mazabin.tmdbclient.ui.screens.intheaters
 
 import android.icu.text.DecimalFormat
 import androidx.compose.foundation.layout.Box
@@ -30,8 +30,10 @@ import androidx.compose.ui.text.font.FontWeight.Companion.ExtraBold
 import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.mazabin.tmdbclient.model.Movie
+import com.mazabin.tmdbclient.ui.navigation.Screen
 import com.mazabin.tmdbclient.ui.theme.Orange
 import kotlinx.coroutines.launch
 
@@ -42,8 +44,13 @@ fun MovieCard(
     modifier: Modifier = Modifier,
     movie: Movie,
     favouriteAction: suspend (Movie) -> Unit,
+    navController: NavController
 )  {
-    Card {
+    Card(
+        onClick = {
+            navController.navigate(Screen.MovieDetails.route)
+        }
+    ) {
         Column {
             Box(modifier = Modifier.fillMaxWidth()) {
                 val coroutineScope = rememberCoroutineScope()

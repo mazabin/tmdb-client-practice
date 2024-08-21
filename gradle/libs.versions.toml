@@ -26,7 +26,8 @@ fragmentKtx = "1.8.2"
 coroutinesVersion = "1.7.3"
 timberVersion = "5.0.1"
 coilVersion = "2.2.2"
-
+navigationVersion = "2.7.7"
+hiltNavigation = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -49,6 +50,7 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastoreVersion" }
 androidx-datastore = { group = "androidx.datastore", name = "datastore", version.ref = "datastoreVersion" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationVersion" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutinesVersion" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutinesVersion" }
@@ -60,6 +62,7 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gsonVersi
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltVersion" }
 hilt-test = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hiltVersion" }
 hilt-kapt = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hiltVersion" }
+hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigation"}
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitVersion" }
 retrofit-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofitVersion" }
 androidx-legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4" }

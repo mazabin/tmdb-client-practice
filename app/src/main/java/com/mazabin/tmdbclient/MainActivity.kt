@@ -5,14 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.mazabin.tmdbclient.ui.screens.InTheatersScreen
-import com.mazabin.tmdbclient.ui.theme.TMDBClientTheme
+import androidx.navigation.compose.rememberNavController
+import com.mazabin.tmdbclient.ui.navigation.Navigation
 import com.mazabin.tmdbclient.viewmodels.InTheatersViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,19 +19,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TMDBClientTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    InTheatersScreen(modifier = Modifier.padding(innerPadding))
-                }
-            }
-        }
-    }
-}
+            val navController = rememberNavController()
+            Navigation(navController = navController)
 
-@Preview(showBackground = true)
-@Composable
-fun InTheatersPreview() {
-    TMDBClientTheme {
-        InTheatersScreen()
+//            TMDBClientTheme {
+//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+//                    InTheatersScreen(modifier = Modifier.padding(innerPadding), navController)
+//                }
+//            }
+        }
     }
 }

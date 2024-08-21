@@ -83,6 +83,8 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.timber)
     implementation(libs.coil)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.hilt.navigation)
 
     testImplementation(libs.junit)
     testImplementation(libs.hilt.test)
