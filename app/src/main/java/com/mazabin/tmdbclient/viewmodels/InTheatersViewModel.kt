@@ -82,7 +82,6 @@ class InTheatersViewModel @Inject constructor(
         _uiState.value = (uiStateFlow.value as InTheatersUiState.Success).copy(inTheaters = newInTheaters)
     }
 
-
     private fun getPage(): Int {
         if (uiStateFlow.value is InTheatersUiState.Success) {
             val lastCollection = (uiStateFlow.value as InTheatersUiState.Success).inTheaters

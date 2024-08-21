@@ -10,14 +10,27 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.sharp.Star
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconToggleButton
+import androidx.compose.material3.IconToggleButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.DarkGray
+import androidx.compose.ui.graphics.Color.Companion.Gray
+import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
@@ -32,27 +45,34 @@ import coil.compose.AsyncImage
 import com.mazabin.tmdbclient.R
 import com.mazabin.tmdbclient.model.Movie
 import com.mazabin.tmdbclient.ui.screens.LoadingScreen
+import com.mazabin.tmdbclient.ui.theme.Orange
 import com.mazabin.tmdbclient.viewmodels.MovieDetailsUiState
 import com.mazabin.tmdbclient.viewmodels.MovieDetailsViewModel
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 private const val BASE_URL_POSTER = "https://image.tmdb.org/t/p/w500"
 private const val BASE_URL_BACKDROP = "https://image.tmdb.org/t/p/w1280"
-
 
 @Composable
 fun MovieDetailsScreen(
     modifier: Modifier = Modifier,
     movieId: Int,
 ) {
-    val movieDetailsViewModel = hiltViewModel<MovieDetailsViewModel>()
-    val uiState = movieDetailsViewModel.uiStateFlow.collectAsState()
+    val viewModel = hiltViewModel<MovieDetailsViewModel>()
+    val uiState = viewModel.uiStateFlow.collectAsState()
 
     when (uiState.value) {
         is MovieDetailsUiState.Loading -> {
             LoadingScreen()
         }
-        is MovieDetailsUiState.Success -> MovieDetailsComponent((uiState.value as MovieDetailsUiState.Success).movie)
+        is MovieDetailsUiState.Success -> {
+            val movie = (uiState.value as MovieDetailsUiState.Success).movie
+            MovieDetailsComponent(
+                movie = movie,
+                favouriteAction = { viewModel.saveFavouriteState(movie) },
+            )
+        }
         is MovieDetailsUiState.Error -> {
             val errorState = uiState.value as MovieDetailsUiState.Error
             MovieDetailsErrorScreen(error = errorState.error, movieId = errorState.movieId)
@@ -60,12 +80,12 @@ fun MovieDetailsScreen(
     }
 
     LaunchedEffect(Unit) {
-        movieDetailsViewModel.fetchData(movieId)
+        viewModel.fetchData(movieId)
     }
 }
 
 @Composable
-fun MovieDetailsComponent(movie: Movie) {
+fun MovieDetailsComponent(movie: Movie, favouriteAction: suspend (Movie) -> Unit = {}) {
     Box(modifier = Modifier
         .fillMaxSize()
     ) {
@@ -78,9 +98,7 @@ fun MovieDetailsComponent(movie: Movie) {
                 .fillMaxHeight()
                 .matchParentSize(),
         )
-        if (movie.adult) {
-            Icon(ImageVector.vectorResource(R.drawable.ic_18), "+18", modifier = Modifier.align(Alignment.TopStart))
-        }
+
         Column(modifier = Modifier.fillMaxSize()) {
             Row(modifier = Modifier
                 .fillMaxWidth()
@@ -93,13 +111,39 @@ fun MovieDetailsComponent(movie: Movie) {
                         .padding(start = 16.dp)
 
                 ) {
-                    Box(modifier = Modifier.background(Color.Blue)) {
+                    Box {
                         AsyncImage(
+                            placeholder = ColorPainter(Color.LightGray),
                             model = BASE_URL_POSTER + movie.posterPath,
                             contentDescription = "Poster for ${movie.title}",
                             contentScale = ContentScale.FillWidth,
                             modifier = Modifier.fillMaxSize(),
                         )
+                        if (movie.adult) {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(R.drawable.ic_18),
+                                contentDescription = "+18",
+                                tint = Color.Red,
+                                modifier = Modifier
+                                    .align(Alignment.TopStart))
+                        }
+                        val coroutineScope = rememberCoroutineScope()
+                        var isChecked by remember { mutableStateOf(movie.isFavourited) }
+                        IconToggleButton(
+                            checked = isChecked,
+                            onCheckedChange = {
+                                isChecked = !isChecked
+                                movie.isFavourited = !movie.isFavourited
+                                coroutineScope.launch {
+                                    favouriteAction.invoke(movie)
+                                }
+                            },
+                            colors = iconColors(),
+                            modifier = Modifier.align(Alignment.TopEnd)
+                        ) {
+                            Icon(Icons.Sharp.Star, "Favourite button")
+                        }
+
                     }
                 }
                 Column(
@@ -191,6 +235,16 @@ fun MovieDetailsComponent(movie: Movie) {
     }
 }
 
+private fun iconColors() =
+    IconToggleButtonColors(
+        contentColor = DarkGray,
+        containerColor = White,
+        checkedContentColor = Orange,
+        checkedContainerColor = White,
+        disabledContentColor = Gray,
+        disabledContainerColor = DarkGray,
+    )
+
 @Preview(showBackground = true)
 @Composable
 fun MovieDetailsComponentPreview() {
@@ -203,7 +257,7 @@ fun MovieDetailsComponentPreview() {
                 overview = "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
                 backdropPath = "/kGzFbGhp99zva6oZODW5atUtnqi.jpg",
                 posterPath = "/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg",
-                adult = false,
+                adult = true,
                 releaseDate = LocalDate.of(1994, 9, 23),
                 popularity = 85.399,
                 voteAverage = 8.7,

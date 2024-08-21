@@ -54,7 +54,7 @@ fun MoviesList(inTheaters: InTheaters, navController: NavController) {
             MovieCard(
                 movie = movie,
                 favouriteAction = { viewModel.saveFavouriteState(movie) },
-                navController = navController
+                navController = navController,
             )
         }
     }

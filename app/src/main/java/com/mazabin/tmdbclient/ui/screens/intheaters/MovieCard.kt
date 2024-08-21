@@ -28,7 +28,7 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.font.FontWeight.Companion.ExtraBold
 import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -44,7 +44,7 @@ fun MovieCard(
     modifier: Modifier = Modifier,
     movie: Movie,
     favouriteAction: suspend (Movie) -> Unit,
-    navController: NavController
+    navController: NavController,
 )  {
     Card(
         onClick = {
@@ -82,7 +82,7 @@ fun MovieCard(
                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
                 minLines = 2,
                 maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                overflow = Ellipsis
             )
             Row(
                 modifier = Modifier
@@ -93,7 +93,7 @@ fun MovieCard(
                 Text(
                     text = DecimalFormat("#.0").format(movie.voteAverage).toString(),
                     fontWeight = ExtraBold,
-                    color = Black
+                    color = Black,
                 )
             }
         }

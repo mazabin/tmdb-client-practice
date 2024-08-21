@@ -9,18 +9,19 @@ import javax.inject.Inject
 
 
 private const val DATA_STORE_FILE_NAME = "favourites.store_pb"
+private val Context.favouritesDataStore: DataStore<Favourites> by dataStore(
+    fileName = DATA_STORE_FILE_NAME,
+    serializer = FavouritesSerializer,
+)
 
-class FavouritesDataStore @Inject constructor() : FavouritesDataStoreApi {
+class FavouritesDataStore @Inject constructor(
+    private val context: Context
+) : FavouritesDataStoreApi {
 
-    private val Context.favouritesDataStore: DataStore<Favourites> by dataStore(
-        fileName = DATA_STORE_FILE_NAME,
-        serializer = FavouritesSerializer,
-    )
-
-    override suspend fun isMovieFavourited(movieId: Int, context: Context) =
+    override suspend fun isMovieFavourited(movieId: Int, context2: Context) =
         context.favouritesDataStore.data.first().idList.contains(movieId)
 
-    override suspend fun addToFavourites(movieId: Int, context: Context) {
+    override suspend fun addToFavourites(movieId: Int, context2: Context) {
         context.favouritesDataStore.updateData { currentFavourites ->
             currentFavourites
                 .toBuilder()
@@ -29,7 +30,7 @@ class FavouritesDataStore @Inject constructor() : FavouritesDataStoreApi {
         }
     }
 
-    override suspend fun removeFromFavourites(movieId: Int, context: Context) {
+    override suspend fun removeFromFavourites(movieId: Int, context2: Context) {
         if (context.favouritesDataStore.data.first().idList.contains(movieId)) {
             context.favouritesDataStore.updateData { currentFavourites ->
                 val newFavourites = currentFavourites.idList.filterNot { it == movieId }
@@ -42,4 +43,3 @@ class FavouritesDataStore @Inject constructor() : FavouritesDataStoreApi {
         }
     }
 }
-

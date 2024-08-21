@@ -13,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,6 +37,10 @@ class MovieDetailsViewModel @Inject constructor(
                         )
                     }
             } catch (exception: Exception) {
+                Timber
+                    .tag(this.javaClass.name)
+                    .e(exception)
+
                 _uiState.value = Error(
                     error = exception.message.orEmpty(),
                     movieId = movieId,
@@ -45,12 +50,20 @@ class MovieDetailsViewModel @Inject constructor(
         }
     }
 
+    suspend fun saveFavouriteState(movie: Movie) {
+        if (movie.isFavourited) {
+            favouritesApi.favouriteMovie(movie.id)
+        } else{
+            favouritesApi.unfavouriteMovie(movie.id)
+        }
+    }
+
     private suspend fun fetchMovie(movieId: Int) =
         movieDataRepository.getMovie(
             userService.getBearerToken(),
             movieId,
             userService.getLanguage(),
-        )
+        ).also { it.isFavourited = favouritesApi.isMovieFavourited(it.id) }
 }
 
 sealed class MovieDetailsUiState {
