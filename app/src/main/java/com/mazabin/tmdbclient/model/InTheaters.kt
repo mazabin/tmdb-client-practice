@@ -4,8 +4,8 @@ import java.time.LocalDate
 
 data class InTheaters (
     val fromDate: LocalDate,
-    val toDate: LocalDate,
+    var toDate: LocalDate,
     val metaPageNumber: Int,
     val metaTotalPages: Int,
-    val movies: List<Movie>,
+    var movies: List<Movie>,
 )
