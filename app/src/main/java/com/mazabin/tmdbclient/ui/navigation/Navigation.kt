@@ -16,7 +16,7 @@ fun Navigation(
         composable(Screen.InTheaters.route) { InTheatersScreen(navController = navController) }
         composable(Screen.MovieDetails.route) {
             val movieId = remember { it.arguments?.getString("movieId") }
-            MovieDetailsScreen(navController = navController, movieId = movieId?.toInt() ?: 0) }
+            MovieDetailsScreen(movieId = movieId?.toInt() ?: 0) }
     }
 }
 
