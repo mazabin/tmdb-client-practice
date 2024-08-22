@@ -46,6 +46,7 @@ import com.mazabin.tmdbclient.R
 import com.mazabin.tmdbclient.model.Movie
 import com.mazabin.tmdbclient.ui.screens.LoadingScreen
 import com.mazabin.tmdbclient.ui.theme.Orange
+import com.mazabin.tmdbclient.utils.convertToLocalDateString
 import com.mazabin.tmdbclient.viewmodels.MovieDetailsUiState
 import com.mazabin.tmdbclient.viewmodels.MovieDetailsViewModel
 import kotlinx.coroutines.launch
@@ -190,7 +191,7 @@ fun MovieDetailsComponent(movie: Movie, favouriteAction: suspend (Movie) -> Unit
                     )
 
                     Text(
-                        text ="Release date: ${movie.releaseDate}",
+                        text ="Release date: ${movie.releaseDate.convertToLocalDateString()}",
                         fontSize = 12.sp,
                         modifier = Modifier.padding(bottom = 8.dp),
                     )

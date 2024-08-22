@@ -18,10 +18,10 @@ class FavouritesDataStore @Inject constructor(
     private val context: Context
 ) : FavouritesDataStoreApi {
 
-    override suspend fun isMovieFavourited(movieId: Int, context2: Context) =
+    override suspend fun isMovieFavourited(movieId: Int) =
         context.favouritesDataStore.data.first().idList.contains(movieId)
 
-    override suspend fun addToFavourites(movieId: Int, context2: Context) {
+    override suspend fun addToFavourites(movieId: Int) {
         context.favouritesDataStore.updateData { currentFavourites ->
             currentFavourites
                 .toBuilder()
@@ -30,7 +30,7 @@ class FavouritesDataStore @Inject constructor(
         }
     }
 
-    override suspend fun removeFromFavourites(movieId: Int, context2: Context) {
+    override suspend fun removeFromFavourites(movieId: Int) {
         if (context.favouritesDataStore.data.first().idList.contains(movieId)) {
             context.favouritesDataStore.updateData { currentFavourites ->
                 val newFavourites = currentFavourites.idList.filterNot { it == movieId }

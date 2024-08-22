@@ -7,6 +7,6 @@ interface MovieDataRepositoryApi {
     suspend fun getMovie(
         authorizationHeader: String,
         movieId: Int,
-        language: String
+        language: String,
     ): Movie
 }

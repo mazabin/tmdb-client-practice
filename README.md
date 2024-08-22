@@ -22,6 +22,8 @@ Favourites system with persistence
 ## Missing
 More tests
 Search
+Proper architecture split into separated modules
+UI Tests
 
 ## Stack
 Java 19

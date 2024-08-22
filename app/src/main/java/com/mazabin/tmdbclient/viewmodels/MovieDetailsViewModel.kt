@@ -30,18 +30,13 @@ class MovieDetailsViewModel @Inject constructor(
         _uiState.value = Loading
         viewModelScope.launch {
             try {
-                fetchMovie(movieId)
-                    .let {
-                        _uiState.value = Success(
-                            movie = it,
-                        )
-                    }
+                setUiStateToSuccess(fetchMovie(movieId))
             } catch (exception: Exception) {
                 Timber
                     .tag(this.javaClass.name)
                     .e(exception)
 
-                _uiState.value = Error(
+                setUiStateToError(
                     error = exception.message.orEmpty(),
                     movieId = movieId,
                 )
@@ -64,6 +59,14 @@ class MovieDetailsViewModel @Inject constructor(
             movieId,
             userService.getLanguage(),
         ).also { it.isFavourited = favouritesApi.isMovieFavourited(it.id) }
+
+    private fun setUiStateToError(error: String, movieId: Int) {
+        _uiState.value = Error(error, movieId)
+    }
+
+    private fun setUiStateToSuccess(movie: Movie) {
+        _uiState.value = Success(movie)
+    }
 }
 
 sealed class MovieDetailsUiState {

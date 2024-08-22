@@ -12,6 +12,6 @@ class MoviesApplication: Application() {
     override fun onCreate() {
         super.onCreate()
 
-        Timber.plant(DebugTree()) //normally, it'd be configured to only log in debug mode, but again, not enough time to do so
+        Timber.plant(DebugTree()) //normally, it'd be configured to only log in debug mode, but I hadn't had time to do that
     }
 }

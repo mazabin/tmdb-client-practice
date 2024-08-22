@@ -8,6 +8,7 @@ import java.io.InputStream
 import java.io.OutputStream
 
 object FavouritesSerializer: Serializer<Favourites> {
+
     override val defaultValue: Favourites = Favourites.getDefaultInstance()
     override suspend fun readFrom(input: InputStream): Favourites {
         try {
