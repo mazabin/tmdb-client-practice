@@ -15,26 +15,26 @@
 5. minSdk = 26
 
 ## What works:
-Movies currently in theaters screen, with pagination to get more movies
-Movie details
-Favourites system with persistence
+ - Movies currently in theaters screen, with pagination to get more movies
+ - Movie details screen
+ - Favourites system with persistence
 
 ## Missing
-More tests
-Search
-Proper architecture split into separated modules
-UI Tests
+ - Some Unit tests
+ - Search
+ - Proper architecture split into separated modules
+ - UI Tests
 
 ## Stack
-Java 19
-Kotlin 2.0.0
-Gradle 4.1.3
-AGP 8.7.0-alpha03
-Jetpack Navigation, Compose
-Coroutines
-Hilt
-Protobuf, DataStore
-Retrofit
-Coil
-Mockk, Junit, AssertJ
-Timber
+Java 19,
+Kotlin 2.0.0,
+Gradle 4.1.3,
+AGP 8.7.0-alpha03,
+Jetpack Navigation, Compose,
+Coroutines,
+Hilt,
+Protobuf, DataStore,
+Retrofit,
+Coil,
+Mockk, Junit, AssertJ,
+Timber,
