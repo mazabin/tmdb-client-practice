@@ -2,6 +2,7 @@ package com.mazabin.tmdbclient.model.converters
 
 import com.mazabin.tmdbclient.model.InTheaters
 import com.mazabin.tmdbclient.model.data.InTheatersData
+import com.mazabin.tmdbclient.model.data.MovieData
 import com.mazabin.tmdbclient.utils.convertToLocalDateObject
 import javax.inject.Inject
 
@@ -16,7 +17,10 @@ class InTheatersConverter @Inject constructor(
             metaPageNumber = inTheatersData.page,
             metaTotalPages = inTheatersData.totalPages,
             movies = inTheatersData.results.map {
-                movieConverter.convertMovieData(it)
+                convertMovieData(it)
             }
         )
+
+    private fun convertMovieData(movieData: MovieData) =
+        movieConverter.convertMovieData(movieData)
 }

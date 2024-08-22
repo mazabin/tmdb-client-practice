@@ -1,14 +1,11 @@
 package com.mazabin.tmdbclient.model.converters
 
-import com.mazabin.tmdbclient.favourites.FavouritesApi
 import com.mazabin.tmdbclient.model.Movie
 import com.mazabin.tmdbclient.model.data.MovieData
 import com.mazabin.tmdbclient.utils.convertToLocalDateObject
 import javax.inject.Inject
 
-class MovieConverter @Inject constructor(
-    private val favouritesApi: FavouritesApi,
-): MovieConverterApi {
+class MovieConverter @Inject constructor(): MovieConverterApi {
 
     override fun convertMovieData(
         movieData: MovieData

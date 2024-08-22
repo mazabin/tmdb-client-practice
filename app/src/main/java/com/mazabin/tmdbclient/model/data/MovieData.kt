@@ -9,7 +9,7 @@ data class MovieData(
     @SerializedName("original_language") val originalLanguage: String,
     @SerializedName("overview") val overview: String,
     @SerializedName("poster_path") val posterPath: String?,
-    @SerializedName("backdrop_path") val backdropPath: String?, //just the id and format, e.g. 12312412412.jpg
+    @SerializedName("backdrop_path") val backdropPath: String?,
     @SerializedName("adult") val adult: Boolean,
     @SerializedName("popularity") val popularity: Double,
     @SerializedName("release_date") val releaseDate: String,
